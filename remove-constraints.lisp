@@ -8,7 +8,7 @@
 ; mv the inventory.json and the inventory.json.sha512 from the version -1 to the base directory
 ; re-run the ocfl validation
 (defun write-to-file (save-file constraints-path)
-  (declare (type pathname save-file)
+  (declare (type string save-file)
            (type pathname constraints-path))
   "This takes the constraints path which will be a constraints.txt path
   The path then is then extracted to the objects level.
@@ -49,7 +49,7 @@
         (when (probe-file candidate)
           (progn
             (if save-file
-                (write-to-file (probe-file save-file) candidate))
+                (write-to-file save-file candidate))
             (delete-constraints candidate)))))))
 
 (defun main ()
