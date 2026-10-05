@@ -20,7 +20,7 @@
 
 (defun extract-version-number (parent-dir)
   "this should be the version directory "
-  (let ((version (car (nreverse (pathname-directory parent-dir)))))
+  (let ((version (car (reverse (pathname-directory parent-dir)))))
     (parse-number:parse-number (remove-if-not #'digit-char-p version))))
 
 (defun delete-constraints (constraints-path)
@@ -48,14 +48,14 @@
       (let ((candidate (merge-pathnames "constraints.txt" dir)))
         (when (probe-file candidate)
           (progn
-            (if save-file
+            (when save-file
                 (write-to-file save-file candidate))
             (delete-constraints candidate)))))))
 
 (defun main ()
   "Do we have an option for saving data?"
-  (let ((root (cadr sb-ext:*posix-argv*))
-        (save-file (caddr sb-ext:*posix-argv*)))
+  (let ((root (first (cdr sb-ext:*posix-argv*)))
+        (save-file (second (cdr sb-ext:*posix-argv*))))
     (if root
         (find-constraints-files root save-file)
         (find-constraints-files "." save-file))))
